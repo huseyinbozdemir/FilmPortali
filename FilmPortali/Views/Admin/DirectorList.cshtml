@@ -1,0 +1,41 @@
+﻿@using EntityLayer.Concrete
+@model List<Film>
+@{
+    ViewBag.Title = "DirectorList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Yönetmene Ait Filmler</h2>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" width="3%">#</th>
+            <th scope="col">Film Adı</th>
+            <th scope="col" width="10%">Yılı</th>
+            <th scope="col" width="10%">Imdb</th>
+            <th scope="col" width="5%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">@item.FilmId</td>
+                    <td>@item.FilmName</td>
+                    <td>@item.FilmYear</td>
+                    <td>@item.FilmImdb</td>
+                    <td><button type="button" class="btn btn-primary mr-2" onclick="filmDetail(@item.FilmId)">Detay</button></td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+<script>
+    function filmDetail(filmId) {
+        window.location.href = "/Admin/FilmDetail?filmId=" + filmId;
+    }
+</script>

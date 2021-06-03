@@ -1,0 +1,45 @@
+﻿@using EntityLayer.Concrete
+@model List<object>
+@{
+    ViewBag.Title = "CategoryFilm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    Category ct = (Category)Model[1];
+    <h2>@ct.CategoryName Kategorisine Ait Filmler</h2>
+
+    <table class="table table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th scope="col" width="3%">#</th>
+                <th scope="col">Film Adı</th>
+                <th scope="col" width="10%">Yılı</th>
+                <th scope="col" width="20%">Yönetmeni</th>
+                <th scope="col" width="5%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in (List<Film>)Model[0])
+                {
+                    <tr>
+                        <td scope="row">@item.FilmId</td>
+                        <td>@item.FilmName</td>
+                        <td>@item.FilmYear</td>
+                        <td>@item.Director.DirectorName</td>
+                        <td><button type="button" class="btn btn-primary mr-2" onclick="filmDetail(@item.FilmId)">Detay</button></td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+}
+<script>
+    function filmDetail(filmId) {
+        window.location.href = "/Admin/FilmDetail?filmId=" + filmId;
+    }
+</script>
+

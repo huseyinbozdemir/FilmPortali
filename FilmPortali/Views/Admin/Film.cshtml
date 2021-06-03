@@ -1,0 +1,63 @@
+﻿@using EntityLayer.Concrete
+@model List<Film>
+@{
+    ViewBag.Title = "Film";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<h2>Filmler</h2>
+<button type="button" class="btn btn-primary mb-2" onclick="location.href='@Url.Action("FilmAdd", "Admin")'">Film Ekle</button>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" width="3%">#</th>
+            <th scope="col">Film Adı</th>
+            <th scope="col" width="10%">Yılı</th>
+            <th scope="col" width="20%">Yönetmeni</th>
+            <th scope="col" width="13%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="row">@item.FilmId</td>
+                <td>@item.FilmName</td>
+                <td>@item.FilmYear</td>
+                <td>@item.Director.DirectorName</td>
+                <td>
+                    <div class="row" style="cursor:pointer">
+                        <div class="col-4">
+                            <a onclick="filmDetail(@item.FilmId)"><span class="material-icons text-primary">search</span></a>
+                        </div>
+                        <div class="col-4">
+                            <a onclick="filmUpdate(@item.FilmId)"><span class="material-icons" style="color:#ff9807">edit</span></a>
+                        </div>
+                        <div class="col-4">
+                            <a onclick="filmRemove(@item.FilmId)"><span class="material-icons text-danger">delete</span></a>
+
+                        </div>
+                    </div>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function filmDetail(filmId) {
+        window.location.href = "/Admin/FilmDetail?filmId=" + filmId;
+    }
+    function filmRemove(filmId) {
+        if (confirm("Filmi silmek istediğinize emin misiniz?"))
+            window.location.href = "/Admin/FilmRemove?filmId=" + filmId;
+    }
+    function filmUpdate(filmId) {
+        window.location.href = "/Admin/FilmUpdate?filmId=" + filmId;
+    }
+</script>

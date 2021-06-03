@@ -1,0 +1,33 @@
+﻿@using EntityLayer.Concrete
+@model List<Category>
+@{
+    ViewBag.Title = "CategoryList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Kategori Bazında Listeleme</h2>
+<div>
+    <select id="categories" class="form-control" onchange="Listele()">
+        <option selected>Lütfen bir kategori seçin.</option>
+        @{
+
+            foreach (var item in Model)
+            {
+                <option value="@item.CategoryId">@item.CategoryName</option>
+            }
+        }
+    </select>
+</div>
+<div id="partialView">
+    @Html.Partial("FilmsTable", new List<Film>())
+</div>
+
+
+<script type="text/javascript">
+    function Listele() {
+        var id = document.getElementById("categories").value;
+        $('#partialView').load('/Admin/FilmsTable?categoryId=' + id);
+       
+    }
+</script>
+

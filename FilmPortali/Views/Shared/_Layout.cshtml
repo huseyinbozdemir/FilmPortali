@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+@using EntityLayer.Concrete
+@using BusinessLayer.Concrete
+@using DataAccessLayer.Concrete.EntityFramework
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Film Portalı</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="~/Sources/Site/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/plyr.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Sources/Site/css/style.css" type="text/css">
+</head>
+
+<body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header__logo">
+                        <a href="/Home/Index">
+                            <img src="~/Sources/Site/img/logobuyuk.png" style="height: 61px; width: 150px;">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8 align-self-center">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li><a href="/">Ana Sayfa</a></li>
+                                <li>
+                                    <a href="#">Kategoriler <span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        @{ CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+
+                                            List<Category> categories = categoryManager.GetAll();
+                                            int columnCounter = 0; }
+                                        <div class="row">
+                                            @foreach (var item in categories)
+                                            {
+                                                string path = "/Home/Category?categoryId=" + item.CategoryId;
+
+                                <div class="col-3">
+                                    <li><a href="@path">@item.CategoryName</a></li>
+                                </div> columnCounter++;
+                                if (columnCounter % 4 == 4)
+                                {
+            @:</div><div class="row">
+            }
+        }
+
+                                    </ul>
+                                </li>
+                                <li><a href="/Home/Films">Filmler</a></li>
+                                <li><a href="/Home/RandomFilm">Rastgele Film</a></li>
+                                <li><a href="/Home/Contact">İletişim</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2 align-self-center">
+                    <div class="header__right">
+                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+
+    <section class="product spad">
+        <div class="container">
+            @RenderBody()
+
+        </div>
+    </section>
+    <!-- Product Section End -->
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="page-up">
+            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer__logo">
+                        <a href="./index.html"><img src="~/Sources/Site/img/logobuyuk.png" style="height: 50px; width: 150px;"></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-9 text-right">
+                    <p>
+                        Copyright &copy; 2021 Spanchi. All rights reserved.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+    <!-- Search model Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch"><i class="icon_close"></i></div>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "search-model-form" }))
+            {
+<input type="text" name="searchKey" placeholder="Ara.....">}
+
+        </div>
+    </div>
+    <!-- Search model end -->
+    <!-- Js Plugins -->
+    <script src="~/Sources/Site/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Sources/Site/js/bootstrap.min.js"></script>
+    <script src="~/Sources/Site/js/player.js"></script>
+    <script src="~/Sources/Site/js/jquery.nice-select.min.js"></script>
+    <script src="~/Sources/Site/js/mixitup.min.js"></script>
+    <script src="~/Sources/Site/js/jquery.slicknav.js"></script>
+    <script src="~/Sources/Site/js/owl.carousel.min.js"></script>
+    <script src="~/Sources/Site/js/main.js"></script>
+
+
+</body>
+
+</html>

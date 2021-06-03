@@ -1,0 +1,75 @@
+﻿@using EntityLayer.Concrete
+@model List<Director>
+@{
+    ViewBag.Title = "Director";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Yönetmenler</h2>
+<button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#addDirectorForm">
+    Yönetmen Ekle
+</button>
+<!--Yönetmen Ekle Form-->
+<div class="modal fade" id="addDirectorForm" tabindex="-1" role="dialog" aria-labelledby="addDirectorForm" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yönetmen Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("DirectorAdd", "Admin", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <label>Yönetmen Adı</label>
+                    <input class="form-control" name="DirectorName" type="text">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </div>
+
+
+            }
+
+        </div>
+    </div>
+</div>
+<table class="table table-hover" id="myTable">
+    <thead>
+        <tr>
+            <th scope="col" width="8%">#</th>
+            <th scope="col" width="60%">Yönetmen Adı</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.DirectorId</th>
+                <th>@item.DirectorName</th>
+                <th>
+                    <button type="button" class="btn btn-warning mr-2" onclick="Listele(@item.DirectorId)">Filmleri</button>
+                    <button type="button" class="btn btn-success mr-2" onclick="Guncelleme(@item.DirectorId)">Güncelle</button>
+                    <button type="button" class="btn btn-danger" onclick="Silme(@item.DirectorId)">Sil</button>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function Silme(id) {
+        if (confirm("Bu yönetmeni silmek istediğinizden emin misiniz?")) {
+            window.location.href = "/Admin/DirectorRemove?DirectorId=" + id;
+        }
+    }
+    function Guncelleme(id) {
+        window.location.href = "/Admin/DirectorUpdate?DirectorId=" + id;
+    }
+    function Listele(id) {
+        window.location.href = "/Admin/DirectorList?DirectorId=" + id;
+    }
+</script>

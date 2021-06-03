@@ -1,0 +1,20 @@
+﻿@using EntityLayer.Concrete
+@model Director
+@{
+    ViewBag.Title = "DirectorUpdate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Yönetmen Güncelle</h2>
+@using (Html.BeginForm("DirectorUpdate", "Admin", FormMethod.Post))
+{
+    <div>
+        @Html.HiddenFor(model => model.DirectorId)
+    </div>
+    <div>
+        <label>Yönetmen Adı</label>
+        <input class="form-control" name="DirectorName" type="text" value="@Model.DirectorName">
+    </div>
+    <button class="btn btn-primary mt-4" type="submit">Güncelle</button>
+
+}

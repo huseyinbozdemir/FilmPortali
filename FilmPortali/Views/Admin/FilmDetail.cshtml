@@ -1,0 +1,66 @@
+﻿@using EntityLayer.Concrete
+@model List<object>
+@{
+    ViewBag.Title = "FilmDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    Film secilen = (Film)Model[0];
+    List<Category> categories = (List<Category>)Model[1];
+    int counter = 0;
+}
+
+
+<div class="card">
+    <div class="card-header text-center" style="background-color: #F6F6FF;height:40px;">
+        <h5>Film Detayları</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-3">
+                <img src="~/filmImages/@secilen.FilmImage" class="rounded w-100" />
+            </div>
+            <div class="col-9 mt-3">
+                <h3><strong>Film Adı: </strong>@secilen.FilmName</h3>
+                <h4><strong>Film Açıklaması: </strong>@secilen.FilmDescription</h4>
+                <h4><strong>Yönetmeni: </strong>@secilen.Director.DirectorName</h4>
+                <h4><strong>Yılı: </strong>@secilen.FilmYear</h4>
+                <h4><strong>Imdb: </strong>@secilen.FilmImdb</h4>
+                <h4>
+                    <strong>Site Skoru:   </strong>
+
+                    @for (double i = 1; i <= secilen.FilmScore; i++)
+                    {
+                        @:<i class="fas fa-star" style="color:#FF9529"></i>
+                        counter++;
+                    }
+                    @for (double i = 0; i < secilen.FilmScore - counter; i++)
+                    {
+                        @:<i class="fas fa-star-half" style="color:#FF9529;"></i>
+                        counter++;
+                    }
+
+                </h4>
+                <h4><strong>Eklenme Zamanı: </strong>@secilen.FilmAddedTime.ToShortDateString()</h4>
+                @if (secilen.IsSuitable)
+                {
+                    @:<span class="badge badge-success">18 yaş için uygundur.</span>
+                }
+                else
+                {
+                    @:<span class="badge badge-danger">18 yaş için uygun değildir.</span>
+                }
+                <h6 class="mt-2">
+                    @for (int i = 0; i < categories.Count; i++)
+                    {
+                        @:<span class="badge badge-dark">@categories[i].CategoryName</span>
+                    }
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-center">
+        <a href="@secilen.FilmTrailer" class="card-link">Trailer'i izlemek için tıkla.</a>
+    </div>
+</div>
+

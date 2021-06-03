@@ -1,0 +1,27 @@
+﻿@using EntityLayer.Concrete
+@model List<Score>
+@{
+    ViewBag.Title = "Scores";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Skor Logları</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th width="3%">#</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><i class="fas fa-star" style="color:#FF4500"></i></td>
+                <td><strong>@item.Member.MemberName</strong>, @item.Film.FilmName filmine <strong>@item.Point</strong> puan verdi!</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,33 @@
+﻿
+@using EntityLayer.Concrete
+@model List<Film>
+
+<table class="table table-hover" id="myTable">
+    <thead>
+        <tr>
+            <th scope="col" width="3%">#</th>
+            <th scope="col">Film Adı</th>
+            <th scope="col" width="10%">Yılı</th>
+            <th scope="col" width="20%">Yönetmeni</th>
+            <th scope="col" width="5%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="row">@item.FilmId</td>
+                <td>@item.FilmName</td>
+                <td>@item.FilmYear</td>
+                <td>@item.Director.DirectorName</td>
+                <td><button type="button" class="btn btn-primary mr-2" onclick="filmDetail(@item.FilmId)">Detay</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function filmDetail(filmId) {
+        window.location.href = "/Admin/FilmDetail?filmId=" + filmId;
+    }
+</script>

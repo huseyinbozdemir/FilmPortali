@@ -1,0 +1,223 @@
+﻿@using EntityLayer.Concrete
+@using FilmPortali.Models
+@model HomeScreenModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="trending__product">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="section-title">
+                        <h4>TREND FİLMLER</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="btn__all">
+                        <a href="/Home/TrendingFilms" class="primary-btn">HEPSİNİ GÖR <span class="arrow_right"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @for (int i = 0; i < (Model.TrendingFilms.Count < 6 ? Model.TrendingFilms.Count : 6); i++)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="../filmImages/@Model.TrendingFilms[i].FilmImage">
+                                @if (!Model.TrendingFilms[i].IsSuitable)
+                                {
+                                    <div class="ep">18</div>
+                                }
+                                else
+                                {
+                                    <div class="ep-2">18</div>
+                                }
+
+                                <div class="comment"><i class="fa fa-comments"></i> @Model.TrendingComments[i]</div>
+                                <div class="view"><i class="fa fa-eye"></i> @Model.TrendingFilms[i].FilmHitCount</div>
+                            </div>
+
+                            <div class="product__item__text">
+
+                                <ul>
+                                    @for (int j = 0; j < Model.TrendingCategory[i].Count; j++)
+                                    {
+                                        <li>@Model.TrendingCategory[i][j].CategoryName</li>
+                                    }
+                                </ul>
+                                <h5><a href="/Home/FilmDetail?filmId=@Model.TrendingFilms[i].FilmId">@Model.TrendingFilms[i].FilmName</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="popular__product">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="section-title">
+                        <h4>POPÜLER FİLMLER</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="btn__all">
+                        <a href="/Home/PopularFilms" class="primary-btn">HEPSİNİ GÖR <span class="arrow_right"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @for (int i = 0; i < (Model.PopularFilms.Count < 6 ? Model.PopularFilms.Count : 6); i++)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="../filmImages/@Model.PopularFilms[i].FilmImage">
+                                @if (!Model.PopularFilms[i].IsSuitable)
+                                {
+                                    <div class="ep">18</div>
+                                }
+                                else
+                                {
+                                    <div class="ep-2">18</div>
+                                }
+
+                                <div class="comment"><i class="fa fa-comments"></i> @Model.PopularComments[i]</div>
+                                <div class="view"><i class="fa fa-eye"></i> @Model.PopularFilms[i].FilmHitCount</div>
+                            </div>
+
+                            <div class="product__item__text">
+
+                                <ul>
+                                    @for (int j = 0; j < Model.PopularCategory[i].Count; j++)
+                                    {
+                                        <li>@Model.PopularCategory[i][j].CategoryName</li>
+                                    }
+                                </ul>
+                                <h5><a href="/Home/FilmDetail?filmId=@Model.PopularFilms[i].FilmId">@Model.PopularFilms[i].FilmName</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="recent__product">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="section-title">
+                        <h4>EN SON EKLENEN FİLMLER</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="btn__all">
+                        <a href="/Home/RecentlyAddedFilms" class="primary-btn">HEPSİNİ GÖR <span class="arrow_right"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @for (int i = 0; i < (Model.RecentlyAddedFilms.Count < 6 ? Model.RecentlyAddedFilms.Count : 6); i++)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="../filmImages/@Model.RecentlyAddedFilms[i].FilmImage">
+                                @if (!Model.RecentlyAddedFilms[i].IsSuitable)
+                                {
+                                    <div class="ep">18</div>
+                                }
+                                else
+                                {
+                                    <div class="ep-2">18</div>
+                                }
+
+                                <div class="comment"><i class="fa fa-comments"></i> @Model.RecentlyComments[i]</div>
+                                <div class="view"><i class="fa fa-eye"></i> @Model.RecentlyAddedFilms[i].FilmHitCount</div>
+                            </div>
+
+                            <div class="product__item__text">
+
+                                <ul>
+                                    @for (int j = 0; j < Model.RecentlyAddedCategory[i].Count; j++)
+                                    {
+                                        <li>@Model.RecentlyAddedCategory[i][j].CategoryName</li>
+                                    }
+                                </ul>
+                                <h5><a href="/Home/FilmDetail?filmId=@Model.RecentlyAddedFilms[i].FilmId">@Model.RecentlyAddedFilms[i].FilmName</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="product__sidebar">
+            <div class="product__sidebar__view">
+                <div class="section-title">
+                    <h5>En Çok Tıklanan</h5>
+                </div>
+                <ul class="filter__controls">
+                    <li class="active" data-filter=".day">Gün</li>
+                    <li data-filter=".week">Hafta</li>
+                    <li data-filter=".month">Ay</li>
+                    <li data-filter=".years">Yıl</li>
+                </ul>
+                <div class="filter__gallery">
+                    @for (int i = 0; i < Model.Keys.Count; i++)
+                    {
+                        <div class="product__sidebar__view__item set-bg mix @Model.Keys[i].Key"
+                             data-setbg="../filmImages/@Model.Keys[i].Film.FilmImage">
+                            @if (!Model.Keys[i].Film.IsSuitable)
+                            {
+                                <div class="ep">18</div>
+                            }
+                            else
+                            {
+
+                                <div class="ep-2">18</div>
+                            }
+                            <div class="view"><i class="fa fa-eye"></i> @Model.Keys[i].Film.FilmHitCount</div>
+                            <h5><a href="/Home/FilmDetail?filmId=@Model.Keys[i].Film.FilmId">@Model.Keys[i].Film.FilmName</a></h5>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+            <div class="product__sidebar__comment">
+                <div class="section-title">
+                    <h5>EN YENİ YORUMLAR</h5>
+                </div>
+                @{
+                    int comCounter = 0;
+                }
+                @foreach (var item in Model.LastComments)
+                {
+
+                    <div class="product__sidebar__comment__item">
+                        <div class="product__sidebar__comment__item__pic" >
+                            <img src="../filmImages/@item.FilmImage" style="height:130px;width:90px;" >
+                        </div>
+                        <div class="product__sidebar__comment__item__text">
+                            <ul>
+                                @for (int i = 0; i < Model.LastCommentsCategory[comCounter].Count; i++)
+                                {
+                                    <li>@Model.LastCommentsCategory[comCounter][i].CategoryName</li>
+                                }
+                            </ul>
+                            <h5><a href="/Home/FilmDetail?filmId=@item.FilmId">@item.FilmName</a></h5>
+                            <span><i class="fa fa-eye"></i> @item.FilmHitCount Tık</span>
+                        </div>
+                    </div>
+                    comCounter++;
+                }
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

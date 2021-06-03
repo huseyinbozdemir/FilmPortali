@@ -1,0 +1,20 @@
+﻿@using EntityLayer.Concrete
+@model Category
+@{
+    ViewBag.Title = "CategoryUpdate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Kategori Güncelle</h2>
+@using (Html.BeginForm("CategoryUpdate", "Admin", FormMethod.Post))
+{
+    <div>
+        @Html.HiddenFor(model => model.CategoryId)
+    </div>
+    <div>
+        <label>Kategori Adı</label>
+        <input class="form-control" name="CategoryName" type="text" value="@Model.CategoryName">
+    </div>
+    <button class="btn btn-primary mt-4" type="submit">Güncelle</button>
+
+}

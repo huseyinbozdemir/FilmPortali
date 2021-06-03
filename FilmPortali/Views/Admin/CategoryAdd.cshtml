@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "CategoryAdd";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Kategori Ekle</h2>
+
+@using (Html.BeginForm("CategoryAdd", "Admin", FormMethod.Post))
+{
+    <div>
+        <label>Kategori Adı</label>
+        <input class="form-control" name="CategoryName" type="text">
+    </div>
+    <button class="btn btn-primary mt-4" type="submit">Ekle</button>
+}
+
+

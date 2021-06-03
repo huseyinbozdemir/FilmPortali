@@ -1,0 +1,145 @@
+﻿@using EntityLayer.Concrete
+@using BusinessLayer.Concrete
+@using DataAccessLayer.Concrete.EntityFramework
+@model List<object>
+@{
+    ViewBag.Title = "FilmUpdate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    List<Category> selectedCategories = (List<Category>)Model[1];
+    selectedCategories = selectedCategories.OrderBy(x => x.CategoryId).ToList();
+    Film selectedFilm = (Film)Model[0];
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+<div class="card">
+    <h5 class="card-header">Film Detayları</h5>
+    <div class="card-body">
+        @using (Html.BeginForm("FilmUpdate", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("FilmId", selectedFilm.FilmId)
+            // FilmName FilmDescription DirectorId FilmImdb FilmYear FilmTrailer IsSuitable FilmImage FilmScore FilmAddedTime
+            <div class="row ml-5">
+                <div class="col-6">
+                    <label>Film Adı</label>
+                    <input class="form-control" type="text" name="FilmName" value="@selectedFilm.FilmName" />
+                </div>
+                <div class="col-2">
+                    <label>Imdb Puanı</label>
+                    <input class="form-control" type="text" name="FilmImdb" value="@selectedFilm.FilmImdb" />
+                </div>
+                <div class="col-2">
+                    <label>Film Yılı</label>
+                    <input class="form-control" type="text" name="FilmYear" value="@selectedFilm.FilmYear" />
+                </div>
+            </div>
+            <div class="row ml-5 mt-3">
+                <div class="col-10">
+                    <label>Film Trailer</label>
+                    <input class="form-control" type="text" name="FilmTrailer" placeholder="URL" value="@selectedFilm.FilmTrailer" />
+                </div>
+            </div>
+            <div class="row ml-5 mt-3">
+                <div class="col-10">
+                    <label>Film Görseli</label>
+                    <input type="file" class="form-control" name="filmGorsel" accept="image/*" />
+                </div>
+            </div>
+            <div class="row ml-5 mt-3">
+                <div class="col-10">
+                    <label>Yönetmeni</label>
+                    <input class="form-control" type="text" name="FilmDirectorName" value="@selectedFilm.Director.DirectorName"/>
+                </div>
+            </div>
+            @Html.Hidden("SecilenKategoriler")
+            <div class="row ml-5 mt-3">
+                <label>Film Kategorileri</label>
+                <div class="col-10">
+                    @{
+                        List<Category> categories = new CategoryManager(new EfCategoryDal()).GetAll();
+                        int counter = 0;
+                        int i = 0;
+                    }
+                    <div class="card p-1">
+                        <table class="table-borderless w-100">
+                            <tr>
+                                @foreach (var item in categories)
+                                {
+                                    if (counter % 6 == 0)
+                                    {
+                                    @: </tr><tr>
+                                    }
+
+                                    <td>
+                                        @if (i < selectedCategories.Count && item.CategoryName == selectedCategories[i].CategoryName && item.CategoryId == selectedCategories[i].CategoryId)
+                                        {
+                                            i++;
+                                            <div class="form-check">
+                                                <input class="form-check-input" id="@item.CategoryId" type="checkbox" name="selectedCategory" value="@item.CategoryId" checked />
+                                                <label class="form-check-label">@item.CategoryName</label>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" id="@item.CategoryId" type="checkbox" name="selectedCategory" value="@item.CategoryId" />
+                                                <label class="form-check-label">@item.CategoryName</label>
+                                            </div>
+                                        }
+
+                                    </td>
+                                    counter++;
+                                }
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row ml-5 mt-3">
+                <div class="col-10">
+                    <label>Film Açıklaması</label>
+                    <textarea class="form-control" name="FilmDescription" rows="3">@selectedFilm.FilmDescription</textarea>
+                </div>
+            </div>
+
+            <div class="row ml-5 mt-3">
+                <div class="form-check ml-3">
+
+                    @if (selectedFilm.IsSuitable)
+                    {
+                        <input class="form-check-input" type="checkbox" name="IsSuitable" value="true" checked />
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="IsSuitable" value="true" />
+                    }
+                    <label class="form-check-label">18 yaş için uygundur.</label>
+                </div>
+            </div>
+            <div class="mt-5 ml-5">
+                <button class="btn btn-primary w-25" type="submit" align="right" onclick="updatemark()">Ekle</button>
+            </div>
+
+
+        }
+    </div>
+</div>
+
+<script>
+    function updatemark(arg) {
+        var abc = ""
+        $('input[name=selectedCategory]').each(function () {
+            if (this.checked) {
+                abc = abc + $(this).val() + ";"
+                //assign set value to hidden field
+                $('#SecilenKategoriler').val(abc);
+            }
+        });
+
+    }
+</script>
+

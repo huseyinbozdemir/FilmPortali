@@ -1,0 +1,53 @@
+﻿@using EntityLayer.Concrete
+@model List<Comment>
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<h2>Yorumlar</h2>
+
+<div class="card">
+    <div class="card-body text-center">
+        <h4 class="card-title">Onaylanmamış Yorumlar</h4>
+    </div>
+    <div class="comment-widgets">
+        <!-- Comment Row -->
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <div class="d-flex flex-row comment-row m-t-0">
+                    <div class="comment-text w-100">
+                        <h4><strong>@item.Member.MemberName</strong> - @Util.TimeAgo(item.CommentTime)</h4> <span class="m-b-15 d-block">@item.CommentDetail </span>
+                        <div class="comment-footer mt-2">
+                            <span class="float-right">
+                                <span class="material-icons" style="color:green;cursor:pointer" onclick="Approve(@item.CommentId)">
+                                    check_circle
+                                </span>
+                                <span class="material-icons" style="color:red;cursor:pointer" onclick="NonApprove(@item.CommentId)">
+                                    delete
+                                </span>
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+                <hr />
+            }
+        }
+
+
+    </div>
+</div>
+<script>
+    function Approve(id) {
+        if (confirm("Yorumu onaylamak istediğinize emin misiniz?"))
+            window.location.href = "/Admin/Approve?commentId=" + id;
+    }
+    function NonApprove(id) {
+        if (confirm("Yorumu silmek istediğinize emin misiniz?"))
+            window.location.href = "/Admin/NonAprove?commentId=" + id;
+    }
+</script>

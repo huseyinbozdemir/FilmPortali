@@ -1,0 +1,173 @@
+﻿@using EntityLayer.Concrete
+@using FilmPortali.Models
+@model FilmDetailModel
+@{
+    ViewBag.Title = "FilmDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    string s = Model.Film.FilmScore.ToString("0.00");
+    string[] parts = s.Split(',');
+    int dolu = int.Parse(parts[0]);
+    int yarim = int.Parse(parts[1]);
+    int bos = (yarim == 0) ? 5 - dolu : 5 - dolu - 1;
+}
+
+<section class="anime-details spad">
+    <div class="container">
+        <div class="anime__details__content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="anime__details__pic set-bg" data-setbg="../filmImages/@Model.Film.FilmImage">
+                        <div class="comment"><i class="fa fa-comments"></i> @Model.Comments.Count</div>
+                        <div class="view"><i class="fa fa-eye"></i> @Model.Film.FilmHitCount</div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="anime__details__text">
+                        <div class="anime__details__title">
+                            <h3>@Model.Film.FilmName</h3>
+                            <span>@Model.Film.Director.DirectorName</span>
+                        </div>
+                        <div class="anime__details__rating">
+                            <div class="rating">
+                                @for (int i = 0; i < dolu; i++)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                                @for (int i = 0; i < ((yarim > 0) ? 1 : 0); i++)
+                                {
+                                    <i class="fa fa-star-half-o"></i>
+                                }
+                                @for (int i = 0; i < bos; i++)
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+
+                            </div>
+                            <span>@Model.ScoreCount Oy</span>
+                        </div>
+                        <p>
+                            @Model.Film.FilmDescription
+                        </p>
+                        <div class="anime__details__widget">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <ul>
+                                        <li><span>Yıl:</span> @Model.Film.FilmYear</li>
+                                        <li><span>Tıklanma:</span> @Model.Film.FilmHitCount</li>
+                                        <li>
+                                            <span>Kategori:</span> @for (int i = 0; i < Model.Categories.Count; i++)
+                                            {
+                                                @Model.Categories[i].CategoryName;
+                                                if (i != Model.Categories.Count - 1)
+                                                {
+                                                    @:,
+
+                                                }
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <ul>
+                                        <li><span>Imdb:</span> @Model.Film.FilmImdb</li>
+                                        <li><span>Eklenme Tarihi:</span> @Model.Film.FilmAddedTime.ToShortDateString()</li>
+                                        <li><span>Site Skoru:</span> @Model.Film.FilmScore.ToString("0.00")</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anime__details__btn">
+                            <a href="@Model.Film.FilmTrailer" class="watch-btn">
+                                <span>Trailer'i İzle</span> <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-8">
+                <div class="anime__details__review">
+                    <div class="section-title">
+                        <h5>Yorumlar</h5>
+                    </div>
+                    @{
+                        Random rnd = new Random();
+                    }
+                    @for (int i = 0; i < Model.Comments.Count; i++)
+                    {
+
+                        string src = "../randomImages/" + rnd.Next(1, 14) + ".png";
+                        <div class="anime__review__item">
+                            <div class="anime__review__item__pic">
+                                <img src="@src" alt="">
+                            </div>
+                            <div class="anime__review__item__text">
+                                <h6>@Model.Comments[i].Member.MemberName - <span>@Util.TimeAgo(Model.Comments[i].CommentTime)</span></h6>
+                                <p>
+                                    @Model.Comments[i].CommentDetail
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="anime__details__form">
+                    <div class="section-title">
+
+                        <h5>Görüşünü Belirt</h5>
+                    </div>
+                    @using (Html.BeginForm("AddComment", "Home", FormMethod.Post))
+                    {
+                        @Html.Hidden("FilmId", Model.Film.FilmId)
+                        @Html.Hidden("GivenScore", 0)
+                        <div class="row">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1">1 star</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" name="MemberName" placeholder="Adınız" />
+                            </div>
+                            <div class="col-6">
+                                <input type="text" name="MemberEmail" placeholder="E-Mail" />
+                            </div>
+                        </div>
+
+                        <textarea placeholder="Yorumunuz" name="Comment"></textarea>
+
+                        <button type="submit" onclick="updatemark()"><i class="fa fa-location-arrow"></i> Görüş Belirt</button>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function updatemark(arg) {
+        var abc = ""
+        $('input[name=rate]').each(function () {
+            if (this.checked) {
+                abc = $(this).val()
+                //assign set value to hidden field
+                $('#GivenScore').val(abc);
+            }
+        });
+
+    }
+</script>
